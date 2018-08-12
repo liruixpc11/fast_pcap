@@ -77,6 +77,22 @@ struct tcp_header_t {
     const static uint8_t kFlagsUrg = 0x20;
     const static uint8_t kFlagsEce = 0x40;
     const static uint8_t kFlagsCwr = 0x80;
+
+    inline bool flag_syn() const {
+        return flags & kFlagsSyn;
+    }
+
+    inline bool flag_ack() const {
+        return flags & kFlagsAck;
+    }
+
+    inline bool flag_rst() const {
+        return flags & kFlagsRst;
+    }
+
+    inline bool flag_fin() const {
+        return flags & kFlagsFin;
+    }
 } PACKED;
 
 struct udp_header_t {

@@ -8,7 +8,7 @@ set(Boost_DEBUG 1)
 set(Boost_USE_MULTITHREAD ON)
 #set(Boost_USE_STATIC_RUNTIME OFF)
 
-find_package(Boost REQUIRED)
+find_package(Boost COMPONENTS filesystem REQUIRED)
 if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
     message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")

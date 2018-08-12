@@ -14,12 +14,18 @@
 
 namespace fast_pcap {
 
+struct timestamp_t {
+    uint32_t seconds;
+    uint32_t micro_seconds;
+
+    timestamp_t(uint32_t seconds, uint32_t micro_seconds) : seconds(seconds), micro_seconds(micro_seconds) {}
+};
+
 class pcap_frame {
 public:
     pcap_frame(size_t length, uint32_t seconds, uint32_t micro_seconds) :
             length_(length),
-            seconds(seconds),
-            micro_seconds(micro_seconds) {
+            timestamp_(seconds, micro_seconds) {
         content_ = new uint8_t[length];
     }
 
@@ -43,12 +49,15 @@ public:
         return length_;
     }
 
+    const timestamp_t &timestamp() const {
+        return timestamp_;
+    }
+
 private:
     boost::uint8_t *content_;
     std::size_t length_;
 
-    uint32_t seconds;
-    uint32_t micro_seconds;
+    timestamp_t timestamp_;
 };
 
 typedef std::shared_ptr<pcap_frame> pcap_frame_ptr;

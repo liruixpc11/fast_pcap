@@ -50,20 +50,21 @@ public:
         return protocol_header<U>(buffer_, pos_ + header_size, size_);
     }
 
-    const T &header() {
+    const T &header() const {
         return *this;
     }
 
-    const T &operator*() {
+    const T &operator*() const {
         return *reinterpret_cast<const T *>(buffer_ + pos_);
     }
 
-    const T *operator->() {
+    const T *operator->() const {
         return reinterpret_cast<const T *>(buffer_ + pos_);
     }
 
     protocol_payload payload() const {
-        return protocol_payload(buffer_ + pos_ + header_size, size_ - pos_ - header_size);
+        std::size_t payload_size = size_ > pos_ + header_size ? size_ - pos_ - header_size : 0;
+        return protocol_payload(buffer_ + pos_ + header_size, payload_size);
     }
 
 private:

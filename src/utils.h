@@ -38,8 +38,8 @@ namespace fast_pcap {
 
 inline boost::uint16_t adjust_endian(boost::uint16_t n) {
     __asm__("xchgb %b0,%h0"        /* swap bytes		*/
-        : "=Q" (n)
-        :  "0" (n));
+    : "=Q" (n)
+    :  "0" (n));
     return n;
 }
 
@@ -66,11 +66,22 @@ inline boost::uint32_t adjust_endian(boost::uint32_t n, bool little_endian) {
     return n;
 }
 
-inline void time_run(std::function<void ()> function) {
+inline void time_run(std::function<void()> function) {
     std::clock_t begin_time = std::clock();
     function();
     std::clock_t end_time = std::clock();
     std::cout << "COST " << ((end_time - begin_time) / static_cast<double>(CLOCKS_PER_SEC)) << "s" << std::endl;
+}
+
+inline std::string ipv4_str(uint32_t x) {
+    char buf[16];
+    snprintf(buf, sizeof buf, "%u.%u.%u.%u",
+             (x) % 0x100,
+             (x / 0x100u) % 0x100,
+             (x / 0x10000u) % 0x100,
+             (x / 0x1000000u) % 0x100);
+
+    return std::string(buf);
 }
 
 }
